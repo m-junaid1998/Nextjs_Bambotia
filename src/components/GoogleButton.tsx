@@ -36,10 +36,7 @@ export function GoogleButton({ clientId }: { clientId?: string }) {
       size: "large",
       text: "continue_with",
       logo_alignment: "center",
-      theme:
-        document.documentElement.dataset.theme === "dark"
-          ? "filled_black"
-          : "outline",
+      theme: "filled_black",
       width: Math.min(el.parentElement?.clientWidth ?? el.clientWidth, 200),
     });
   };
