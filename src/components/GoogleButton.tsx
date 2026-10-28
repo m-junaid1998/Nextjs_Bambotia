@@ -24,6 +24,7 @@ export function GoogleButton({ clientId }: { clientId?: string }) {
   const render = () => {
     const gsi = window.google?.accounts.id;
     const el = box.current;
+    const isDark = document.documentElement.dataset.theme === "dark";
     if (!gsi || !el) return;
     gsi.initialize({
       client_id: clientId,
@@ -36,8 +37,8 @@ export function GoogleButton({ clientId }: { clientId?: string }) {
       size: "large",
       text: "continue_with",
       logo_alignment: "center",
-      theme: "filled_black",
-      width: Math.min(el.parentElement?.clientWidth ?? el.clientWidth, 200),
+      theme: isDark ? "filled_black" : "outline",
+      width: Math.min(el.clientWidth, 300),
     });
   };
 
