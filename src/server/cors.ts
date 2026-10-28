@@ -1,5 +1,5 @@
 // Browsers on these sites may call the API (cookies included). Everything else is refused.
-export const ALLOWED_ORIGINS = ["https://bambotia.com", "https://www.bambotia.com"];
+export const ALLOWED_ORIGINS = ["https://bambotia.com", "https://www.bambotia.com" ,"https://bambotianextjs.vercel.app"];
 if (process.env.NODE_ENV !== "production") ALLOWED_ORIGINS.push("http://localhost:3000");
 
 /** The site's own pages (same host) and the allowed list may call the API. Requests without an Origin (server-to-server, curl) pass. */
