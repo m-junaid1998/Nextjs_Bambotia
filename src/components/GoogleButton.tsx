@@ -36,8 +36,11 @@ export function GoogleButton({ clientId }: { clientId?: string }) {
       size: "large",
       text: "continue_with",
       logo_alignment: "center",
-      theme: document.documentElement.dataset.theme === "dark" ? "filled_black" : "outline",
-      width: Math.min(el.offsetWidth, 400),
+      theme:
+        document.documentElement.dataset.theme === "dark"
+          ? "filled_black"
+          : "outline",
+      width: Math.min(el.parentElement?.clientWidth ?? el.clientWidth, 200),
     });
   };
 
@@ -48,7 +51,7 @@ export function GoogleButton({ clientId }: { clientId?: string }) {
         or
         <span className="h-px flex-1 bg-[var(--color-border)]" />
       </div>
-      <div ref={box} className="flex h-11 w-full justify-center" />
+      <div ref={box} className="flex h-10 w-full justify-center rounded-full bg-transparent" />
       <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" onReady={render} />
     </>
   );
