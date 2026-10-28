@@ -6,10 +6,7 @@ export type Post = {
   sections: { heading: string; body: string[] }[];
 };
 
-/**
- * Starter guides. They target the informational searches that the competing Pakistani jewellery
- * stores do not answer (none of the five has a real buying-guide section). Edit or extend freely.
- */
+
 export const posts: Post[] = [
   {
     slug: "how-to-choose-bridal-jewellery-set",

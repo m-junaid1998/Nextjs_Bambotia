@@ -23,7 +23,7 @@ export const Modal: React.FC<ModalProps> = ({
   confirmText = "Confirm", cancelText = "Cancel", isLoading = false, children,
 }) => {
   useEffect(() => {
-    if (!isOpen) return; // no global key listener while the modal is closed
+    if (!isOpen) return;
     const handleKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);

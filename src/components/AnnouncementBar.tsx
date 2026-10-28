@@ -27,7 +27,7 @@ export function AnnouncementBar({ rules }: { rules: ShippingRules }) {
   ];
 
   return (
-    <div role="region" aria-label="Store announcements" className="relative z-40 flex items-center overflow-hidden border-b border-[var(--gold)]/30 bg-[var(--bar)] py-2 text-[11px] font-semibold tracking-wide text-[var(--primary-foreground)] sm:text-xs">
+    <div role="region" aria-label="Store announcements" className="relative z-40 flex items-center overflow-hidden border-b border-[var(--gold)]/30 bg-[var(--bar)] py-2 text-[11px] font-semibold tracking-wide text-[var(--primary-foreground)] dark:text-[var(--gold-fill)] sm:text-xs">
       <style>{CSS}</style>
       <div className="announcement-marquee-wrap min-w-0 flex-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
         <div className="announcement-marquee flex w-max whitespace-nowrap">
