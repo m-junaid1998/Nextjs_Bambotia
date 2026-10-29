@@ -22,6 +22,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: "BAMBOTIA | Online Jewellery Store in Pakistan", template: "%s | BAMBOTIA" },
+  icons: { icon: "/favicon.png"},
   description,
   applicationName: SITE_NAME,
   authors: [{ name: "Muhammad Junaid Bambotia" }],
