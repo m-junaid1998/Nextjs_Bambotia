@@ -13,28 +13,28 @@ interface CartDrawerProps {
 }
 
 
-export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen = false, onClose = () => {} }) => {
+export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen = false, onClose = () => { } }) => {
   const navigate = useNavigate();
   const { cartItems, totalItemsCount, cartTotalAmount, addToCart, removeFromCart, isCartMutationLoading, isLoadingCart } = useCart(isOpen);
   const { freeShippingAbove: THRESHOLD, deliveryCharge: SHIPPING } = useShippingRules();
   const isFree = cartTotalAmount >= THRESHOLD;
   const remaining = THRESHOLD - cartTotalAmount;
 
-const handleQtyUpdate = async (item: any, delta: number) => {
-  const pId = item.product?._id || item.product;
-  const productName = item.product?.name || "Product";
-  const stock = item.product?.stock ?? item.stock ?? Infinity;
-  const newQty = item.qty + delta;
-  if (delta > 0 && newQty > stock) {
-    const itemLabel = stock === 1 ? "item" : "items";
-    return toast.error(`Only ${stock} ${itemLabel} available in stock.`);
-  }
-  const variant = { size: item.size || undefined, color: item.color || undefined };
-  if (newQty < 1) {
-    return await removeFromCart(pId, productName, variant);
-  }
-  await addToCart(pId, newQty, true, variant);
-};
+  const handleQtyUpdate = async (item: any, delta: number) => {
+    const pId = item.product?._id || item.product;
+    const productName = item.product?.name || "Product";
+    const stock = item.product?.stock ?? item.stock ?? Infinity;
+    const newQty = item.qty + delta;
+    if (delta > 0 && newQty > stock) {
+      const itemLabel = stock === 1 ? "item" : "items";
+      return toast.error(`Only ${stock} ${itemLabel} available in stock.`);
+    }
+    const variant = { size: item.size || undefined, color: item.color || undefined };
+    if (newQty < 1) {
+      return await removeFromCart(pId, productName, variant);
+    }
+    await addToCart(pId, newQty, true, variant);
+  };
 
   if (!isOpen) return null;
 
@@ -86,7 +86,7 @@ const handleQtyUpdate = async (item: any, delta: number) => {
                   <div className="bg-[var(--gold)] h-full transition-all duration-500 rounded-full" style={{ width: `${Math.min(100, (cartTotalAmount / THRESHOLD) * 100)}%` }} />
                 </div>
               </div>
-             <div className="mt-4 space-y-3 overflow-y-auto no-scrollbar pr-0.5 flex-1">
+              <div className="mt-4 space-y-3 overflow-y-auto no-scrollbar pr-0.5 flex-1">
                 {cartItems.map((item: any) => {
                   const p = item.product || {};
                   const pId = p._id || p;
@@ -94,16 +94,16 @@ const handleQtyUpdate = async (item: any, delta: number) => {
                     <div key={item._id || `${pId}-${item.size}-${item.color}`} className="flex items-center gap-3.5 bg-[var(--color-card-bg)] p-3.5 rounded-2xl border border-[var(--color-border)] hover:border-[var(--gold)] transition-all">
                       {/* Badi Image Size */}
                       <img src={p.images?.[0] || p.image || ""} alt={p.name} className="w-20 h-20 object-cover rounded-xl shrink-0 bg-[var(--color-card)] border border-[var(--color-border)]" />
-                      
+
                       <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch py-0.5">
                         <div className="flex justify-between items-start gap-2">
                           {/* Badhe Fonts */}
                           <h3 className="text-sm  font-bold text-[var(--color-text-dark)] leading-snug line-clamp-1">{p.name}</h3>
-                          <button disabled={isCartMutationLoading} onClick={() => removeFromCart(pId, item.product?.name, { size: item.size || undefined, color: item.color || undefined })} className="text-[var(--color-danger)] cursor-pointer disabled:opacity-50 p-1">
+                          <button disabled={isCartMutationLoading} onClick={() => removeFromCart(pId, item.product?.name, { size: item.size || undefined, color: item.color || undefined })} className="cursor-pointer rounded-lg bg-red-500 p-2 text-white transition-all duration-200 hover:scale-110 hover:bg-red-600 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50">
                             <Trash2 size={16} />
                           </button>
                         </div>
-                        
+
                         <p className="text-sm font-extrabold text-[var(--color-success)] mt-0.5">PKR {(item.price ?? p.salePrice ?? p.regularPrice ?? 0).toLocaleString()}</p>
                         {(item.size || item.color) && (
                           <p className="text-[11px] text-[var(--color-muted)] mt-0.5">
@@ -113,7 +113,7 @@ const handleQtyUpdate = async (item: any, delta: number) => {
                         {(item.sizeUnavailable || item.colorUnavailable) && (
                           <p className="text-[11px] text-[var(--color-danger)] mt-0.5">This option is no longer available. Please remove it.</p>
                         )}
-                        
+
                         <div className="flex items-center justify-between mt-2">
                           <div className="inline-flex items-center border border-[var(--color-border)] rounded-full bg-[var(--color-bg-light)] px-2.5 py-1 shadow-2xs">
                             <button disabled={isCartMutationLoading} onClick={() => handleQtyUpdate(item, -1)} className="text-[var(--color-muted)] hover:text-[var(--color-primary)] p-0.5 cursor-pointer disabled:opacity-40">

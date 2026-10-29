@@ -49,20 +49,32 @@ export default function HomeSections() {
             {isLoadingCategoryImages
               ? Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} variant="rounded" className="aspect-square" />)
               : tiles.map((t: any) => (
-                  <Link key={t._id} href={t.href} className="group block text-center">
-                    <div className="aspect-square overflow-hidden rounded-xl bg-[var(--color-card)]">
-                      <img src={cloudinaryUrl(t.imageUrl, 360)} alt={`${t.label} jewellery`} width={180} height={180} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                    </div>
-                    <span className="mt-2.5 block line-clamp-1 text-sm font-semibold group-hover:text-[var(--color-primary)]">{t.label}</span>
-                  </Link>
-                ))}
+                <Link key={t._id} href={t.href} className="group block text-center">
+                  <div className="aspect-square overflow-hidden rounded-xl bg-[var(--color-card)]">
+                    <img src={cloudinaryUrl(t.imageUrl, 360)} alt={`${t.label} jewellery`} width={180} height={180} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  </div>
+                  <span className="mt-2.5 block line-clamp-1 text-sm font-semibold group-hover:text-[var(--color-primary)]">{t.label}</span>
+                </Link>
+              ))}
           </div>
         </section>
       )}
-      <NewArrivals />
-      <ProductRow title="Best sellers" subtitle="Customer favourites" products={bestSellers} loading={isLoadingBestSellers} />
       <ReelsSection />
-      <ProductRow title="Top rated" subtitle="Highest rated by our customers" products={topRated} loading={isLoadingTopRated} />
+      <NewArrivals />
+      <ProductRow
+        title="Best Sellers"
+        subtitle="Customer favourites you'll love"
+        products={bestSellers}
+        loading={isLoadingBestSellers}
+      />
+
+      <ProductRow
+        title="Top Rated"
+        subtitle="Highest rated by our customers"
+        products={topRated}
+        loading={isLoadingTopRated}
+
+      />
     </>
   );
 }

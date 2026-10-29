@@ -65,7 +65,7 @@ function ProductCard({ product, priority = false }: { product: Product; priority
 
       <div className="flex flex-1 flex-col p-3.5">
         {label && <span className="mb-1 block truncate text-[11px] font-extrabold uppercase tracking-wider text-[var(--gold)]">{label}</span>}
-        <h3 className="mb-2 line-clamp-1 text-sm font-bold md:text-base">
+        <h3 className="mb-0.5 line-clamp-1 text-sm font-bold md:text-base">
           <Link href={href} className="hover:text-[var(--gold)]">{product.name}</Link>
         </h3>
 
@@ -91,15 +91,22 @@ function ProductCard({ product, priority = false }: { product: Product; priority
           </div>
         )}
 
-        <div className="mt-auto pt-1">
-          <p className="mb-3 flex min-h-7 flex-wrap items-baseline gap-x-1.5">
+        <div className="mt-auto pt-0.5">
+          <p className="mb-1.5 flex min-h-7 flex-wrap items-baseline gap-x-1.5">
             {sizes.length > 1 && <span className="text-xs text-[var(--color-muted-foreground)]">From</span>}
             <span className="text-base font-black text-[var(--color-primary)] md:text-lg">Rs. {cheapest.salePrice?.toLocaleString()}</span>
             {cheapest.regularPrice > cheapest.salePrice && <span className="text-xs text-[var(--color-muted-foreground)] line-through">Rs. {cheapest.regularPrice?.toLocaleString()}</span>}
           </p>
-          <p className={`mb-2 flex items-center gap-1.5 text-sm font-bold ${soldOut ? "text-[var(--color-danger)]": "text-[var(--color-foreground)]"}`}>
+
+          <p
+            className={`mb-1.5 inline-flex items-center rounded-full border px-1.5 py-0.5 text-[11px] font-bold transition-all duration-300 ${soldOut
+                ? "border-[var(--color-danger)]/30 bg-[var(--color-danger)]/5 text-[var(--color-danger)]"
+                : "border-[var(--primary)]/30 bg-[var(--primary)]/5 text-[var(--primary)] dark:border-[var(--color-success)]/30 dark:bg-[var(--color-success)]/5 dark:text-[var(--color-success)]"
+              }`}
+          >
             {soldOut ? "Out of stock" : `Stock: ${product.stock}`}
           </p>
+
           <div className="flex flex-col gap-1.5">
             {hasOptions ? (
               <>

@@ -142,8 +142,8 @@ function ProductView({ product, related }: { product: any; related: any[] }) {
                 <ShoppingBag size={16} /> Add to cart
               </button>
             </div>
-            <div className="flex w-full flex-col gap-3 sm:flex-row">
-              <button type="button" disabled={unavailable || isCartMutationLoading} onClick={buyNow} className={`${BTN} w-full min-w-0 justify-center gap-2 bg-[var(--color-primary)] text-[var(--color-primary-foreground)] hover:brightness-110 sm:flex-1`}>
+            <div className="flex w-full flex-col gap-2 sm:flex-row">
+              <button type="button" disabled={unavailable || isCartMutationLoading} onClick={buyNow} className={`${BTN} w-full min-w-0 justify-center gap-2 bg-[var(--color-primary)] text-white hover:brightness-110 sm:flex-1`}>
                 <span>Buy it now</span>
                 <ArrowRight size={16} className="shrink-0" />
               </button>

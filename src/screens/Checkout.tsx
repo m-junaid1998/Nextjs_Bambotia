@@ -16,6 +16,7 @@ import { useCart } from "../hooks/useCart";
 import { validateEmptyObject } from "../utils/helper";
 import { formatRs, orderTotals } from "../utils/shipping";
 import { useShippingRules } from "../hooks/useShipping";
+import Image from "next/image";
 
 const checkoutSchema = z.object({
   fullName: z.string().min(1, "Full Name required"),
@@ -64,7 +65,7 @@ export default function Checkout() {
       area: "",
       address: "",
       orderNotes: "",
-      paymentMethod: "Cash on Delivery", 
+      paymentMethod: "Cash on Delivery",
     },
   });
 
@@ -78,7 +79,7 @@ export default function Checkout() {
     img: string;
     stock: number;
     color: string | null;
-    size: string; // chosen size label ("" when the product has no sizes)
+    size: string;
   }
 
   const checkoutItems: CheckoutItem[] = liveCartItems.map((item: any) => {
@@ -87,7 +88,7 @@ export default function Checkout() {
     return {
       id: String(p._id ?? ""),
       name: p.name || "Product",
-      price: item.price ?? (p.salePrice || p.regularPrice || 0), // unit price of the chosen size
+      price: item.price ?? (p.salePrice || p.regularPrice || 0),
       qty: item.qty || 1,
       img: p.images?.[0] || "",
       stock: p.stock ?? Infinity,
@@ -173,8 +174,8 @@ export default function Checkout() {
         toast.error(
           "Order Failed",
           error?.response?.data?.message ||
-            error?.message ||
-            "Something went wrong!"
+          error?.message ||
+          "Something went wrong!"
         );
       }
     }
@@ -341,56 +342,66 @@ export default function Checkout() {
             </div>
 
             <div className="space-y-3">
-              {/* Cash On Delivery Option */}
+              {/* Cash on Delivery */}
               <label
                 onClick={() => setValue("paymentMethod", "Cash on Delivery")}
-                className={`flex items-start gap-3 p-4 rounded-xl border transition-all cursor-pointer ${
-                  paymentMethod === "Cash on Delivery"
-                    ? "border-[var(--color-accent)] bg-[var(--color-success)]/10 shadow-xs"
-                    : "border-[var(--color-border)] hover:border-[var(--color-accent)]"
-                }`}
+                className={`flex items-start gap-3 p-4 rounded-xl border transition-all duration-200 cursor-pointer ${paymentMethod === "Cash on Delivery"
+                    ? "border-[var(--color-accent)] bg-[var(--gold-soft)] shadow-sm"
+                    : "border-[var(--color-border)] bg-[var(--color-card)] hover:border-[var(--color-accent)]"
+                  }`}
               >
                 <input
                   type="radio"
                   value="Cash on Delivery"
                   {...register("paymentMethod")}
-                  className="mt-1 accent-[var(--color-primary)] cursor-pointer"
+                  className="mt-1 cursor-pointer accent-[var(--color-accent)]"
                 />
+
                 <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <p className="text-xs font-bold">Cash on Delivery (COD)</p>
-                  </div>
+                  <p className="text-xs font-bold text-[var(--color-foreground)]">
+                    Cash on Delivery (COD)
+                  </p>
+
                   <p className="text-[11px] text-[var(--color-muted)]">
                     Pay in cash when your order arrives at your doorstep.
                   </p>
-                  <p className="text-[10px] text-[var(--color-text-dark)] font-medium flex items-center gap-1 pt-0.5">
-                    <ShieldCheck size={12} className="text-[var(--color-success)]" />
+
+                  <p className="text-[10px] text-[var(--color-foreground)] font-medium flex items-center gap-1 pt-0.5">
+                    <ShieldCheck
+                      size={12}
+                      className="text-[var(--color-success)]"
+                    />
                     100% secure — Inspect before payment
                   </p>
                 </div>
               </label>
 
+              {/* Online Payment */}
               <label
                 onClick={() => setValue("paymentMethod", "Online Payment")}
-                className={`flex items-start gap-3 p-4 rounded-xl border transition-all cursor-pointer ${
-                  paymentMethod === "Online Payment"
-                    ? "border-[var(--color-accent)] bg-[var(--color-success)]/10 shadow-xs"
-                    : "border-[var(--color-border)] hover:border-[var(--color-accent)]"
-                }`}
+                className={`flex items-start gap-3 p-4 rounded-xl border transition-all duration-200 cursor-pointer ${paymentMethod === "Online Payment"
+                    ? "border-[var(--color-accent)] bg-[var(--gold-soft)] shadow-sm"
+                    : "border-[var(--color-border)] bg-[var(--color-card)] hover:border-[var(--color-accent)]"
+                  }`}
               >
                 <input
                   type="radio"
                   value="Online Payment"
                   {...register("paymentMethod")}
-                  className="mt-1 accent-[var(--color-primary)] cursor-pointer"
+                  className="mt-1 cursor-pointer accent-[var(--color-accent)]"
                 />
-                <div className="space-y-1 flex-1">
+
+                <div className="space-y-1 flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
-                    <p className="text-xs font-bold">Online Payment (Bank Transfer / Easypaisa)</p>
-                    <span className="text-[10px] font-extrabold text-[var(--color-success)] bg-emerald-500/20 px-2 py-0.5 rounded-md flex items-center gap-1 shrink-0">
+                    <p className="text-xs font-bold text-[var(--color-foreground)]">
+                      Online Payment (Bank Transfer / Easypaisa)
+                    </p>
+
+                    <span className="text-[10px] font-extrabold text-[var(--color-success)] bg-[var(--gold-soft)] border border-[var(--color-border)] px-2 py-0.5 rounded-md shrink-0">
                       5% OFF
                     </span>
                   </div>
+
                   <p className="text-[11px] text-[var(--color-muted)]">
                     Get instant 5% discount on paying via Bank Transfer or Easypaisa.
                   </p>
@@ -398,54 +409,77 @@ export default function Checkout() {
               </label>
 
               {paymentMethod === "Online Payment" && (
-                <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 space-y-4 animate-fadeIn">
-                  {/* Easypaisa / Mobile Wallet Details */}
-                  <div className="space-y-2 pt-2 border-t border-amber-500/30">
-                    <div className="flex items-center gap-2 border-b border-amber-500/30 pb-1.5">
-                      <Smartphone size={15} className="text-[var(--color-success)]" />
-                      <span className="text-xs font-extrabold text-[var(--color-success)] uppercase tracking-wider">
+                <div className="p-4 rounded-xl bg-[var(--color-card)] border border-[var(--color-accent)]/40 space-y-4 animate-fadeIn">
+                  {/* Easypaisa Account */}
+                  <div className="space-y-2 pt-2">
+                    <div className="flex items-center gap-2 border-b border-[var(--color-border)] pb-2">
+                      <Smartphone
+                        size={15}
+                        className="text-[var(--color-success)]"
+                      />
+
+                      <span className="text-xs font-extrabold text-[var(--color-accent)] uppercase tracking-wider">
                         Easypaisa Account
                       </span>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
                       <div>
-                        <p className="text-[10px] font-bold text-[var(--color-muted-foreground)] uppercase">Account Title</p>
-                        <p className="font-bold text-[var(--color-foreground)]">MUHAMMAD IRFAN BAMBOO TYA</p>
+                        <p className="text-[10px] font-bold text-[var(--color-muted)] uppercase">
+                          Account Title
+                        </p>
+
+                        <p className="font-bold text-[var(--color-foreground)]">
+                          MUHAMMAD IRFAN BAMBOO TYA
+                        </p>
                       </div>
 
                       <div>
-                        <p className="text-[10px] font-bold text-[var(--color-muted-foreground)] uppercase">Easypaisa Mobile No.</p>
+                        <p className="text-[10px] font-bold text-[var(--color-muted)] uppercase">
+                          Easypaisa Mobile No.
+                        </p>
+
                         <div className="flex items-center gap-2">
-                          <p className="font-bold text-[var(--color-foreground)] font-mono">0332 3399238</p>
+                          <p className="font-bold text-[var(--color-foreground)] font-mono">
+                            0332 3399238
+                          </p>
+
                           <button
                             type="button"
                             onClick={() => handleCopy("03323399238", "easy")}
-                            className="text-[var(--color-muted-foreground)] hover:text-black cursor-pointer"
+                            aria-label="Copy Easypaisa number"
+                            className="text-[var(--color-muted)] hover:text-[var(--color-accent)] cursor-pointer transition-colors"
                           >
-                            {copiedField === "easy" ? <Check size={12} className="text-green-600" /> : <Copy size={12} />}
+                            {copiedField === "easy" ? (
+                              <Check size={12} className="text-[var(--color-success)]" />
+                            ) : (
+                              <Copy size={12} />
+                            )}
                           </button>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* WhatsApp Payment Proof Button */}
-                  <div className="pt-2 border-t border-amber-500/30">
-                    <p className="text-xs font-bold text-[var(--color-foreground)] mb-2">
-                      Transfer karne ke baad transaction screenshot WhatsApp par send kar dein
+                  {/* Payment Proof */}
+                  <div className="pt-3 border-t border-[var(--color-border)]">
+                    <p className="text-xs font-bold text-[var(--color-foreground)] mb-3">
+                      Transfer karne ke baad transaction screenshot WhatsApp par send kar dein.
                     </p>
+
                     <button
                       type="button"
                       onClick={handleSendPaymentProof}
-                      className="w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-[11px] flex items-center justify-center gap-2 shadow-xs cursor-pointer transition-colors"
+                      className="w-full py-2.5 px-3 bg-[var(--color-primary)] text-[var(--color-primary-foreground)] hover:opacity-90 rounded-lg font-bold text-[11px] flex items-center justify-center gap-2 shadow-sm cursor-pointer transition-all"
                     >
-                      <WhatsAppIcon size={14} /> Send Payment Proof
+                      <Image src="/whatsapp.svg" alt="WhatsApp" width={14} height={14} className="shrink-0" />
+                      Send Payment Proof
                     </button>
                   </div>
                 </div>
               )}
             </div>
+
           </div>
         </div>
 
@@ -476,11 +510,10 @@ export default function Checkout() {
                 checkoutItems.map((item, index) => (
                   <div
                     key={`${item.id}-${item.size}-${item.color}`}
-                    className={`pb-3.5 flex items-center justify-between gap-3 ${
-                      index !== checkoutItems.length - 1
+                    className={`pb-3.5 flex items-center justify-between gap-3 ${index !== checkoutItems.length - 1
                         ? "border-b border-[var(--color-border)]"
                         : ""
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <img
@@ -583,9 +616,9 @@ export default function Checkout() {
               type="button"
               onClick={handleWhatsApp}
               disabled={checkoutItems.length === 0}
-              className="w-full py-3 text-xs font-bold rounded-xl bg-[#25D366] hover:brightness-95 text-black flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:opacity-50 transition-colors"
+              className="w-full py-3 text-xs font-bold rounded-xl bg-[#25D366] hover:brightness-95 text-white flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:opacity-50 transition-colors"
             >
-              <WhatsAppIcon size={16} /> ORDER VIA WHATSAPP
+             <Image src="/whatsapp.svg" alt="WhatsApp" width={16} height={16} className="shrink-0" /> ORDER VIA WHATSAPP
             </button>
           </div>
         </div>
