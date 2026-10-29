@@ -10,8 +10,7 @@ const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakart
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit", display: "swap" });
 const openSans = Open_Sans({ subsets: ["latin"], variable: "--font-open-sans", display: "swap" });
 
-const description =
-  "Shop bridal jewellery sets, earrings, bangles and necklaces online in Pakistan. Cash on delivery and delivery to Karachi, Lahore, Islamabad and all cities.";
+const description ="Shop bridal jewellery sets, earrings, bangles and necklaces online in Pakistan. Cash on delivery and delivery to Karachi, Lahore, Islamabad and all cities.";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -52,7 +51,7 @@ const structuredData = {
       "@id": `${SITE_URL}/#organization`,
       name: SITE_NAME,
       url: `${SITE_URL}/`,
-      logo: { "@type": "ImageObject", url: `${SITE_URL}/icon.avif` },
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/favicon.png` },
       description,
       areaServed: { "@type": "Country", name: "Pakistan" },
       currenciesAccepted: "PKR",
