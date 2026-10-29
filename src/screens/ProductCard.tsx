@@ -97,8 +97,9 @@ function ProductCard({ product, priority = false }: { product: Product; priority
             <span className="text-base font-black text-[var(--color-primary)] md:text-lg">Rs. {cheapest.salePrice?.toLocaleString()}</span>
             {cheapest.regularPrice > cheapest.salePrice && <span className="text-xs text-[var(--color-muted-foreground)] line-through">Rs. {cheapest.regularPrice?.toLocaleString()}</span>}
           </p>
-
-          {/* Always two buttons, so every card in a row has the same height. Products with options send the shopper to the page to choose. */}
+          <p className={`mb-2 flex items-center gap-1.5 text-sm font-bold ${soldOut ? "text-[var(--color-danger)]": "text-[var(--color-foreground)]"}`}>
+            {soldOut ? "Out of stock" : `Stock: ${product.stock}`}
+          </p>
           <div className="flex flex-col gap-1.5">
             {hasOptions ? (
               <>

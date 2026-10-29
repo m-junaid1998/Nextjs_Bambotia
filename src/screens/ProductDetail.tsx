@@ -3,7 +3,7 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowRight, Heart, MessageCircle, Minus, Plus, ShoppingBag, Star } from "lucide-react";
+import { ArrowRight, Heart, Minus, Plus, ShoppingBag, Sparkles, Star } from "lucide-react";
 import { toast } from "@/utils/toast";
 import { useProductDetail } from "@/hooks/useProduct";
 import { useCart } from "@/hooks/useCart";
@@ -16,6 +16,7 @@ import { ProductGallery } from "@/screens/ProductGallery";
 import { colorHex, categoryPath } from "@/utils/seo";
 import { formatPKR, priceForSize } from "@/utils/helper";
 import { deliveryFor, ORDER_WHATSAPP } from "@/utils/shipping";
+import Image from "next/image";
 
 // The review form pulls in react-hook-form + zod: its own chunk, loaded after the page.
 const CustomerReviews = dynamic(() => import("@/components/CustomerReviews").then((m) => m.CustomerReviews), { loading: () => <Skeleton className="h-64 rounded-2xl" /> });
@@ -141,23 +142,28 @@ function ProductView({ product, related }: { product: any; related: any[] }) {
                 <ShoppingBag size={16} /> Add to cart
               </button>
             </div>
-            <button type="button" disabled={unavailable || isCartMutationLoading} onClick={buyNow} className={`${BTN} bg-[var(--color-primary)] text-[var(--color-primary-foreground)] hover:brightness-110`}>
-              Buy it now <ArrowRight size={16} />
-            </button>
-            <button type="button" disabled={unavailable} onClick={orderOnWhatsApp} className={`${BTN} border border-[#25D366] text-[#0B6B37] hover:bg-[#25D366] hover:text-black dark:text-[#25D366] dark:hover:text-black`}>
-              <MessageCircle size={16} /> Order via WhatsApp
-            </button>
+            <div className="flex w-full flex-col gap-3 sm:flex-row">
+              <button type="button" disabled={unavailable || isCartMutationLoading} onClick={buyNow} className={`${BTN} w-full min-w-0 justify-center gap-2 bg-[var(--color-primary)] text-[var(--color-primary-foreground)] hover:brightness-110 sm:flex-1`}>
+                <span>Buy it now</span>
+                <ArrowRight size={16} className="shrink-0" />
+              </button>
+              <button type="button" disabled={unavailable} onClick={orderOnWhatsApp} className={`${BTN} w-full min-w-0 justify-center gap-2 bg-[#0B6B37] text-white hover:brightness-110 sm:flex-1`}>
+                <Image src="/whatsapp.svg" alt="WhatsApp" width={16} height={16} className="block shrink-0" />
+                <span>Order via WhatsApp</span>
+              </button>
+            </div>
           </div>
-
           {product.description && (
             <section className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] p-4 sm:p-5">
-              <h2 className="mb-3 text-sm font-extrabold uppercase tracking-wider">Description</h2>
-              <p className={`whitespace-pre-line leading-7 ${MUTED}`}>{product.description}</p>
+              <div className="mb-3 flex items-center gap-2">
+                <Sparkles size={16} className="shrink-0 text-[var(--color-primary)]" />
+                <h2 className="text-sm font-extrabold uppercase tracking-wider">Description</h2>
+              </div>
+              <p className={`whitespace-pre-line leading-7 ${MUTED}`}> {product.description}</p>
             </section>
           )}
         </div>
       </div>
-
       {related.length > 0 && (
         <section className="mt-10">
           <h2 className="mb-4 text-xl font-extrabold uppercase tracking-wide">You may also like</h2>
